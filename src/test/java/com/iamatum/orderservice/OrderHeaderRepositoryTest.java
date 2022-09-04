@@ -49,6 +49,7 @@ class OrderHeaderRepositoryTest {
         OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
         assertThat(savedOrder.getId()).isNotNull();
         assertThat(savedOrder.getOrderStatus()).isEqualTo(OrderStatus.NEW);
+        assertThat(orderHeader.getCreatedDate()).isNotNull();
 
     }
 
