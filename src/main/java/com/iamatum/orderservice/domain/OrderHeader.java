@@ -4,6 +4,7 @@ package com.iamatum.orderservice.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -46,11 +47,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-@ToString
-
-
 
 public class OrderHeader extends BaseEntity {
+
+    @OneToMany(mappedBy = "orderHeader", cascade=CascadeType.PERSIST)
+    private Set<OrderLine> orderLines;
 
     @EqualsAndHashCode.Exclude
     private String customerName;

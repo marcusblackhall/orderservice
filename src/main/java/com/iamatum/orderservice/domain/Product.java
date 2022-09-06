@@ -16,7 +16,7 @@ public class Product extends BaseEntity {
 
 
     @EqualsAndHashCode.Exclude
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private ProductStatus productStatus;
     @EqualsAndHashCode.Exclude
     private String description;

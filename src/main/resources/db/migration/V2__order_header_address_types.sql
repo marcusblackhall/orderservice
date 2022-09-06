@@ -1,4 +1,4 @@
-alter table order_header
+alter table orderschema.order_header
     add column shipping_address varchar(30),
     add column shipping_city varchar(30),
     add column shipping_state varchar(30),
