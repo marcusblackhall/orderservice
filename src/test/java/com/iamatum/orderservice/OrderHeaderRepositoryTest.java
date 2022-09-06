@@ -1,14 +1,11 @@
 package com.iamatum.orderservice;
 
-import com.iamatum.orderservice.domain.Address;
-import com.iamatum.orderservice.domain.OrderHeader;
-import com.iamatum.orderservice.domain.OrderLine;
-import com.iamatum.orderservice.domain.OrderStatus;
+import com.iamatum.orderservice.domain.*;
+import com.iamatum.orderservice.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -28,6 +25,9 @@ class OrderHeaderRepositoryTest {
     @Autowired
     private OrderHeaderRepository orderHeaderRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Test
     void shouldCreateAnOrder(){
 
@@ -45,10 +45,17 @@ class OrderHeaderRepositoryTest {
         orderHeader.setShippingAddress(address);
         orderHeader.setOrderStatus(OrderStatus.NEW);
 
+        Product product = new Product();
+        product.setProductStatus(ProductStatus.IN_STOCK);
+        product.setDescription("I Phone 13 ");
+        productRepository.save(product);
 
         OrderLine ol = new OrderLine();
         ol.setOrderHeader(orderHeader);
         ol.setQuantityOrdered(5L);
+        ol.setProduct(product);
+
+
 
         orderHeader.setOrderLines(Set.of(ol));
 
