@@ -4,9 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @EqualsAndHashCode(callSuper = true)
@@ -20,4 +19,21 @@ public class Product extends BaseEntity {
     private ProductStatus productStatus;
     @EqualsAndHashCode.Exclude
     private String description;
+
+    @EqualsAndHashCode.Exclude
+    @ManyToMany
+    @JoinTable(name = "product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+
+    )
+    private Set<Category> categories;
+
+//    public void  addCategory(Category category){
+//
+//        if (this.categories == null) categories = new HashSet<>();
+//
+//        categories.add(category);
+//
+//    }
 }

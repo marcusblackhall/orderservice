@@ -4,6 +4,7 @@ package com.iamatum.orderservice.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -53,8 +54,20 @@ public class OrderHeader extends BaseEntity {
     @OneToMany(mappedBy = "orderHeader", cascade=CascadeType.PERSIST)
     private Set<OrderLine> orderLines;
 
+    public OrderApproval getOrderApproval() {
+        return orderApproval;
+    }
+
+    public void setOrderApproval(OrderApproval orderApproval) {
+        this.orderApproval = orderApproval;
+    }
+
+    @OneToOne
+    private OrderApproval orderApproval;
+
     @EqualsAndHashCode.Exclude
-    private String customerName;
+    @ManyToOne
+    private Customer customer;
 
     @Embedded
     private Address shippingAddress;
@@ -63,5 +76,14 @@ public class OrderHeader extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
+
+    public void addOrderLine(OrderLine orderLine){
+
+        if (orderLines == null) orderLines = new HashSet<>();
+
+        orderLines.add(orderLine);
+        orderLine.setOrderHeader(this);
+
+    }
 
 }

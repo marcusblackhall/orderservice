@@ -1,4 +1,4 @@
-package com.iamatum.orderservice;
+package com.iamatum.orderservice.repositories;
 
 import com.iamatum.orderservice.domain.OrderHeader;
 import org.springframework.data.jpa.repository.JpaRepository;
