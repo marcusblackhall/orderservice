@@ -3,11 +3,23 @@ package com.iamatum.orderservice.domain;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 public class Customer extends BaseEntity {
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    @Version
+    private Integer version;
 
     public String getCustomerName() {
         return customerName;

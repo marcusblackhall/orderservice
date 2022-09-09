@@ -51,18 +51,13 @@ import java.util.Set;
 
 public class OrderHeader extends BaseEntity {
 
-    @OneToMany(mappedBy = "orderHeader", cascade=CascadeType.PERSIST)
+    @Version
+    private Integer version;
+
+    @OneToMany(mappedBy = "orderHeader", cascade={CascadeType.PERSIST,CascadeType.REMOVE})
     private Set<OrderLine> orderLines;
 
-    public OrderApproval getOrderApproval() {
-        return orderApproval;
-    }
-
-    public void setOrderApproval(OrderApproval orderApproval) {
-        this.orderApproval = orderApproval;
-    }
-
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, mappedBy = "orderHeader")
     private OrderApproval orderApproval;
 
     @EqualsAndHashCode.Exclude
@@ -84,6 +79,15 @@ public class OrderHeader extends BaseEntity {
         orderLines.add(orderLine);
         orderLine.setOrderHeader(this);
 
+    }
+
+    public OrderApproval getOrderApproval() {
+        return orderApproval;
+    }
+
+    public void setOrderApproval(OrderApproval orderApproval) {
+        this.orderApproval = orderApproval;
+        orderApproval.setOrderHeader(this);
     }
 
 }

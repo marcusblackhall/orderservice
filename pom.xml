@@ -107,6 +107,7 @@
 					<user>marcus</user>
 					<password>marcus</password>
 					<baselineOnMigrate>true</baselineOnMigrate>
+					<defaultSchema>orderschema</defaultSchema>
 					<schemas>orderschema</schemas>
 					<locations>
 						<location>

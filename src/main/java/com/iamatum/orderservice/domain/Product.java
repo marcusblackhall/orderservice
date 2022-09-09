@@ -14,6 +14,8 @@ import java.util.Set;
 public class Product extends BaseEntity {
 
 
+    private Integer quantityOnHand;
+
     @EqualsAndHashCode.Exclude
     @Enumerated(EnumType.ORDINAL)
     private ProductStatus productStatus;

@@ -28,8 +28,13 @@ class ProductRepositoryTest {
         Product product = new Product();
         product.setDescription("my product");
         product.setProductStatus(ProductStatus.IN_STOCK);
+        product.setQuantityOnHand(30);
         Product saved = productRepository.save(product);
         assertThat(saved.getProductStatus()).isEqualTo(ProductStatus.IN_STOCK);
+
+        saved.setQuantityOnHand(40);
+        Product product1 = productRepository.saveAndFlush(saved);
+        assertThat(product1.getQuantityOnHand()).isEqualTo(40);
 
     }
 
