@@ -1,15 +1,18 @@
-package com.iamatum.orderservice.repositories;
+package com.iamatum.orderservice.services;
 
 import com.iamatum.orderservice.domain.Product;
 import com.iamatum.orderservice.domain.ProductStatus;
+import com.iamatum.orderservice.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(
@@ -17,25 +20,27 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 )
 @Testcontainers
 @ActiveProfiles("testcontainer")
-class ProductRepositoryTest {
+@ComponentScan(basePackageClasses = com.iamatum.orderservice.services.ProductServiceImpl.class)
+class ProductServiceImplTest {
+    @Autowired
+    ProductService productService;
 
     @Autowired
     ProductRepository productRepository;
 
     @Test
-    void shouldCreateProduct() {
+    void shouldUpdateQtyOnHand(){
 
         Product product = new Product();
-        product.setDescription("my product");
         product.setProductStatus(ProductStatus.IN_STOCK);
-        product.setQuantityOnHand(30);
-        Product saved = productRepository.saveAndFlush(product);
-        assertThat(saved.getProductStatus()).isEqualTo(ProductStatus.IN_STOCK);
+        product.setQuantityOnHand(10);
+        product.setDescription("IPhone");
+        Product product1 = productService.addProduct(product);
 
-        saved.setQuantityOnHand(40);
-        Product product1 = productRepository.saveAndFlush(saved);
-        assertThat(product1.getQuantityOnHand()).isEqualTo(40);
+        Product product2 = productService.updateQOH(product1.getId(), 60);
+
+        assertThat(product2.getQuantityOnHand()).isEqualTo(60);
+
 
     }
-
 }
